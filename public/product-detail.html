@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details – Your Brand</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> tailwind.config = { theme: { extend: { colors: { neon: '#2d8eff' } } } } </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body class="bg-[#06060a] text-gray-200">
+    <div id="navbar-placeholder"></div>
+
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-4" id="productDetailContainer">
+            <!-- filled by JS -->
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+    <a href="https://wa.me/918055698328" target="_blank" class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl shadow-2xl hover:scale-110 transition">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        AOS.init();
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const container = document.getElementById('productDetailContainer');
+
+        async function loadProduct() {
+            const res = await fetch(`/api/products/${id}`);
+            const product = await res.json();
+            if (product.err) {
+                container.innerHTML = `<div class="text-center py-20"><h2 class="text-3xl text-white">Product Not Found</h2><a href="products.html" class="btn-primary mt-4">Back to Products</a></div>`;
+                return;
+            }
+            renderProductDetail(product);
+        }
+
+        function renderProductDetail(product) {
+            container.innerHTML = `
+                <div class="glass-card-premium p-6 sm:p-10 grid lg:grid-cols-2 gap-10">
+                    <!-- Image slider -->
+                    <div class="slider-container" id="productSlider">
+                        <div class="slider-track" id="sliderTrack">
+                            ${product.images.map(img => `<img src="${img}" alt="${product.name}" class="slider-slide">`).join('')}
+                        </div>
+                        <button class="slider-arrow left" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="slider-arrow right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="space-y-6">
+                        <div>
+                            <span class="inline-block bg-neon/20 text-neon text-xs px-4 py-2 rounded-full font-semibold">${product.badge || ''}</span>
+                            <h1 class="text-3xl sm:text-4xl font-bold font-display text-white mt-3">${product.name}</h1>
+                            <p class="text-2xl font-bold text-white mt-3">₹${product.price} <span class="text-sm text-gray-400 font-normal">/ piece</span></p>
+                            <p class="text-gray-400 mt-4 leading-relaxed">${product.description}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-400 mb-2">Color: <span id="selectedColorText" class="text-white font-semibold">${product.colors[0]}</span></h4>
+                            <div class="flex flex-wrap gap-2">${product.colors.map(c => `<button class="color-box ${c===product.colors[0]?'selected-color':''}" data-color="${c}">${c}</button>`).join('')}</div>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-400 mb-2">Size: <span id="selectedSizeText" class="text-white font-semibold">${product.sizes[0]}</span></h4>
+                            <div class="flex flex-wrap gap-2">${product.sizes.map(s => `<button class="size-box ${s===product.sizes[0]?'selected-size':''}" data-size="${s}">${s}</button>`).join('')}</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-gray-400">
+                            <div><i class="fas fa-tshirt text-neon mr-2"></i> Fabric: <span class="text-white font-medium">${product.fabric}</span></div>
+                            <div><i class="fas fa-print text-neon mr-2"></i> Printing: <span class="text-white font-medium">${product.printingMethods.join(', ')}</span></div>
+                        </div>
+                        <div class="flex flex-wrap gap-4 pt-4">
+                            <button onclick="inquireNow('${product.name}', ${product.price})" class="btn-primary flex-1 text-base py-4"><i class="fab fa-whatsapp text-lg"></i> Inquire Now</button>
+                            <button onclick="addToWishlist('${product._id}')" class="btn-outline flex-1 text-base py-4"><i class="far fa-heart"></i> Wishlist</button>
+                        </div>
+                    </div>
+                </div>`;
+
+            // Slider logic
+            const track = document.getElementById('sliderTrack');
+            const slides = document.querySelectorAll('.slider-slide');
+            let currentIndex = 0;
+            function updateSlider() { track.style.transform = `translateX(-${currentIndex * 100}%)`; }
+            document.getElementById('prevBtn').addEventListener('click', ()=>{ currentIndex = (currentIndex===0)?slides.length-1:currentIndex-1; updateSlider(); });
+            document.getElementById('nextBtn').addEventListener('click', ()=>{ currentIndex = (currentIndex===slides.length-1)?0:currentIndex+1; updateSlider(); });
+
+            // Color & Size selection
+            document.querySelectorAll('.color-box').forEach(b=>b.addEventListener('click', function(){
+                document.querySelectorAll('.color-box').forEach(c=>c.classList.remove('selected-color'));
+                this.classList.add('selected-color');
+                document.getElementById('selectedColorText').textContent = this.dataset.color;
+            }));
+            document.querySelectorAll('.size-box').forEach(b=>b.addEventListener('click', function(){
+                document.querySelectorAll('.size-box').forEach(s=>s.classList.remove('selected-size'));
+                this.classList.add('selected-size');
+                document.getElementById('selectedSizeText').textContent = this.dataset.size;
+            }));
+        }
+
+        window.inquireNow = function(name, price) {
+            const color = document.querySelector('.selected-color')?.dataset.color || '';
+            const size = document.querySelector('.selected-size')?.dataset.size || '';
+            const msg = `🛍️ *Product Inquiry*\n📦 ${name}\n💰 ₹${price}\n🎨 ${color}\n📏 ${size}`;
+            window.open(`https://wa.me/918055698328?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+
+        loadProduct();
+    </script>
+</body>
+</html>
