@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard – Your Brand</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> tailwind.config = { theme: { extend: { colors: { neon: '#2d8eff' } } } } </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body class="bg-[#06060a] text-gray-200">
+    <div id="navbar-placeholder"></div>
+
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h1 class="text-4xl font-bold font-display text-white mb-10 text-center">My <span class="neon-text">Dashboard</span></h1>
+
+            <!-- Stats -->
+            <div class="grid sm:grid-cols-3 gap-6 mb-12" data-aos="fade-up">
+                <div class="glass-card p-5 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-neon/10 rounded-xl flex items-center justify-center text-neon text-2xl"><i class="fas fa-clipboard-list"></i></div>
+                    <div><p class="text-2xl font-bold text-white" id="totalInq">0</p><p class="text-sm text-gray-400">Total Inquiries</p></div>
+                </div>
+                <div class="glass-card p-5 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-400 text-2xl"><i class="fas fa-check-circle"></i></div>
+                    <div><p class="text-2xl font-bold text-white" id="activeOrd">0</p><p class="text-sm text-gray-400">Active Orders</p></div>
+                </div>
+                <div class="glass-card p-5 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-400 text-2xl"><i class="fas fa-heart"></i></div>
+                    <div><p class="text-2xl font-bold text-white" id="wishCount">0</p><p class="text-sm text-gray-400">Wishlist Items</p></div>
+                </div>
+            </div>
+
+            <!-- Recent Inquiries -->
+            <div class="glass-card-premium p-6 mb-12">
+                <h3 class="text-xl font-semibold text-white mb-6">Recent <span class="neon-text">Inquiries</span></h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-300" id="inquiriesTable">
+                        <thead class="text-xs text-gray-400 uppercase border-b border-white/5">
+                            <tr><th class="px-4 py-3">Inquiry ID</th><th class="px-4 py-3">Product</th><th class="px-4 py-3">Date</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Action</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- New Bulk Order (inside dashboard) -->
+            <div class="glass-card-premium p-6">
+                <h3 class="text-xl font-semibold text-white mb-6">New <span class="neon-text">Bulk Order</span> Inquiry</h3>
+                <form id="dashboardBulkForm" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <input name="instituteName" placeholder="Institute Name *" required class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <input name="contactPerson" placeholder="Contact Person *" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <input name="phone" type="tel" placeholder="Phone *" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <input name="email" type="email" placeholder="Email *" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <select name="productType" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white"><option>T‑Shirt</option><option>Polo</option><option>Hoodie</option></select>
+                    <input name="quantity" type="number" placeholder="Quantity *" required min="50" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <input name="sizes" placeholder="Sizes (e.g., S,M,L)" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <input name="deadline" type="date" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <input name="budget" placeholder="Budget" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                    <button type="submit" class="btn-primary col-span-full py-4">Submit Bulk Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+    <a href="https://wa.me/918055698328" target="_blank" class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl shadow-2xl hover:scale-110 transition">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        AOS.init();
+        // The app.js's setupDashboardPage() will populate tables and form
+    </script>
+</body>
+</html>
