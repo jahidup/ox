@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us – Your Brand</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> tailwind.config = { theme: { extend: { colors: { neon: '#2d8eff' } } } } </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+</head>
+<body class="bg-[#06060a] text-gray-200">
+    <div id="navbar-placeholder"></div>
+
+    <section class="py-20">
+        <div class="max-w-6xl mx-auto px-4">
+            <h1 class="text-4xl font-bold font-display text-white text-center mb-10">Get in <span class="neon-text">Touch</span></h1>
+            <div class="grid lg:grid-cols-2 gap-10">
+                <div class="glass-card p-6 space-y-5">
+                    <h3 class="text-xl font-semibold text-white">Send a Message</h3>
+                    <form id="contactForm">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <input type="text" placeholder="Your Name" required class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                            <input type="email" placeholder="Your Email" required class="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                        </div>
+                        <input type="text" placeholder="Subject" class="w-full mt-4 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                        <textarea placeholder="Your message" rows="5" class="w-full mt-4 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white"></textarea>
+                        <button type="submit" class="btn-primary w-full mt-4">Send Message <i class="fas fa-paper-plane ml-2"></i></button>
+                    </form>
+                </div>
+                <div class="glass-card p-6 space-y-6">
+                    <h3 class="text-xl font-semibold text-white">Contact Information</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3"><i class="fas fa-phone text-neon"></i><span>+91 8055698328</span></div>
+                        <div class="flex items-center gap-3"><i class="fas fa-envelope text-neon"></i><span>hello@yourbrand.com</span></div>
+                        <div class="flex items-center gap-3"><i class="fas fa-map-marker-alt text-neon"></i><span>123, Printing Hub, Sector 45, Noida, UP – 201301</span></div>
+                    </div>
+                    <a href="https://wa.me/918055698328" target="_blank" class="btn-primary bg-green-600 w-full justify-center mt-4">Chat on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+    <a href="https://wa.me/918055698328" target="_blank" class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl shadow-2xl hover:scale-110 transition">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        AOS.init();
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showToast('Message sent (demo)');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
