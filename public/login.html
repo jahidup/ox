@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – Your Brand</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> tailwind.config = { theme: { extend: { colors: { neon: '#2d8eff' } } } } </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#06060a] text-gray-200">
+    <div id="navbar-placeholder"></div>
+
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="glass-card-premium p-8 w-full max-w-md">
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">Welcome <span class="neon-text">Back</span></h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Email</label>
+                    <input type="email" name="email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-neon outline-none" placeholder="you@example.com">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Password</label>
+                    <input type="password" name="password" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-neon outline-none" placeholder="••••••">
+                </div>
+                <button type="submit" class="btn-primary w-full">Sign In</button>
+            </form>
+            <p class="mt-4 text-sm text-gray-400 text-center">Don't have an account? <a href="register.html" class="text-neon">Register</a></p>
+            <p class="text-center mt-2"><a href="forgot-password.html" class="text-xs text-gray-500 hover:text-neon">Forgot password?</a></p>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = e.target.email.value;
+            const password = e.target.password.value;
+            loginUser(email, password); // from app.js
+        });
+    </script>
+</body>
+</html>
