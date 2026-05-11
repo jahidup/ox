@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Designer – Your Brand</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> tailwind.config = { theme: { extend: { colors: { neon: '#2d8eff' } } } } </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <style>
+        #designCanvas { border: 2px dashed rgba(255,255,255,0.2); }
+        canvas { max-width: 100%; }
+    </style>
+</head>
+<body class="bg-[#06060a] text-gray-200">
+    <div id="navbar-placeholder"></div>
+
+    <section class="py-20">
+        <div class="max-w-5xl mx-auto px-4">
+            <h1 class="text-4xl font-bold font-display text-white text-center mb-10">Design Your <span class="neon-text">Own T‑Shirt</span></h1>
+            <div class="grid lg:grid-cols-2 gap-10">
+                <!-- Canvas -->
+                <div class="glass-card p-4 flex items-center justify-center">
+                    <div id="designCanvas" class="w-full h-96 bg-white/5 rounded-xl flex items-center justify-center">
+                        <canvas id="tshirtCanvas" width="400" height="450"></canvas>
+                    </div>
+                </div>
+                <!-- Controls -->
+                <div class="glass-card p-6 space-y-5">
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">Upload Logo</label>
+                        <input type="file" id="imageUpload" accept="image/*" class="w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:bg-neon/20 file:text-neon">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">Add Text</label>
+                        <input type="text" id="designText" placeholder="Your text here" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-neon outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">Text Color</label>
+                        <input type="color" id="textColor" value="#ffffff" class="w-full h-10 rounded bg-white/5 border border-white/10">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-400 mb-2">T‑Shirt Base Color</label>
+                        <select id="tshirtColor" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                            <option value="#ffffff">White</option>
+                            <option value="#000000">Black</option>
+                            <option value="#1a1a2e">Navy</option>
+                            <option value="#ef4444">Red</option>
+                        </select>
+                    </div>
+                    <button onclick="submitDesign()" class="btn-primary w-full py-4"><i class="fab fa-whatsapp"></i> Submit Design & Get Quote</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+    <a href="https://wa.me/918055698328" target="_blank" class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl shadow-2xl hover:scale-110 transition">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        AOS.init();
+        const canvas = document.getElementById('tshirtCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawTshirt(color = '#ffffff') {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(100,80); ctx.lineTo(300,80); ctx.lineTo(280,150); ctx.lineTo(350,180);
+            ctx.lineTo(350,380); ctx.lineTo(50,380); ctx.lineTo(50,180); ctx.lineTo(120,150);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#555'; ctx.lineWidth = 2; ctx.stroke();
+        }
+        drawTshirt();
+
+        document.getElementById('tshirtColor').addEventListener('change', e => {
+            drawTshirt(e.target.value);
+            document.getElementById('designText').dispatchEvent(new Event('input'));
+        });
+
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 150, 200, 100, 100);
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('designText').addEventListener('input', function() {
+            drawTshirt(document.getElementById('tshirtColor').value);
+            const text = this.value;
+            if (text) {
+                ctx.fillStyle = document.getElementById('textColor').value;
+                ctx.font = 'bold 24px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(text, 200, 180);
+            }
+        });
+        document.getElementById('textColor').addEventListener('input', function() {
+            document.getElementById('designText').dispatchEvent(new Event('input'));
+        });
+
+        window.submitDesign = function() {
+            const msg = '🎨 *Custom Design Enquiry* – I have created a design and would like a quote.';
+            window.open(`https://wa.me/918055698328?text=${encodeURIComponent(msg)}`, '_blank');
+        };
+    </script>
+</body>
+</html>
