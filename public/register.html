@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register – Your Brand</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> tailwind.config = { theme: { extend: { colors: { neon: '#2d8eff' } } } } </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#06060a] text-gray-200">
+    <div id="navbar-placeholder"></div>
+
+    <div class="min-h-screen flex items-center justify-center px-4 py-10">
+        <div class="glass-card-premium p-8 w-full max-w-md">
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">Create <span class="neon-text">Account</span></h2>
+            <form id="registerForm" class="space-y-4">
+                <input type="text" name="fullName" placeholder="Full Name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <input type="email" name="email" placeholder="Email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <input type="tel" name="phone" placeholder="Phone Number" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <input type="password" name="password" placeholder="Password (min 6 characters)" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" required class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <button type="submit" class="btn-primary w-full">Register</button>
+            </form>
+            <p class="mt-4 text-sm text-gray-400 text-center">Already have an account? <a href="login.html" class="text-neon">Login</a></p>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(e.target));
+            if (data.password !== data.confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            registerUser({ fullName: data.fullName, email: data.email, phone: data.phone, password: data.password });
+        });
+    </script>
+</body>
+</html>
